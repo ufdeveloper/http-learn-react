@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Post from "../../../components/Post/Post";
 import axios from "axios";
 import classes from './Posts.css';
-import {Link} from "react-router-dom";
+import {Link, Route} from "react-router-dom";
+import FullPost from "../FullPost/FullPost";
 
 class Posts extends Component {
 
@@ -22,9 +23,8 @@ class Posts extends Component {
     }
 
     postSelectedHandler = (postId) => {
-        this.setState({
-            selectedPostId: postId
-        })
+        console.log("inside postSelectedHandler, postId=", postId);
+        this.props.history.push(postId);
     };
 
     render() {
@@ -42,9 +42,12 @@ class Posts extends Component {
             });
 
         return (
-            <section className={classes.Posts}>
-                {posts}
-            </section>
+            <div>
+                <section className={classes.Posts}>
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + "/:id"} exact component={FullPost} />
+            </div>
         )
     }
 }
