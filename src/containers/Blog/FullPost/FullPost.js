@@ -22,7 +22,7 @@ class FullPost extends Component {
     loadData() {
         if(this.props.match.params.id) {
             if(!this.state.loadedPost ||
-                (this.state.loadedPost && this.state.loadedPost.id !== this.props.match.params.id)) {
+                (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)) {
                 axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id)
                     .then(res => {
                         this.setState({
@@ -31,6 +31,13 @@ class FullPost extends Component {
                     });
             }
         }
+    }
+
+    deletePostHandler = () => {
+        axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id)
+            .then(response => {
+                console.log(response);
+            });
     }
 
     render () {
@@ -45,7 +52,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPost.title}</h1>
                     <p>{this.state.loadedPost.body}</p>
                     <div className={classes.Edit}>
-                        <button className={classes.Delete}>Delete</button>
+                        <button onClick={this.deletePostHandler} className={classes.Delete}>Delete</button>
                     </div>
                 </div>
 
